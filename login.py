@@ -1,11 +1,20 @@
 import tkinter as tk
 from functools import partial
+from db import mycursor
 
 
 def validateLogin(username, password):
-	print("username entered :", username.get())
-	print("password entered :", password.get())
-	return
+    print("username entered :", username.get())
+    print("password entered :", password.get())
+    # query = "select * from t_users where full_name=%s" % username.get()
+    # print(query)
+    mycursor.execute("select pass from t_users where full_name=%s",(username.get(),))
+    dbPass = mycursor.fetchone()
+    print(dbPass)
+    if (password.get()==dbPass[0]):
+        print("Redirect to Dashboard")
+
+    return
 
 #window
 tkWindow = tk.Tk()  
