@@ -1,16 +1,23 @@
 import tkinter as tk
-from db import mycursor
+from db import mycursor,mydb
+from datetime import datetime
 
-username = "John Doe"
+now = datetime.now()
+formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+u_id = "1"
 password = "Hello12123"
 
-def getEmpDetails():
-    print("Got Employee Details")
+def postAttendance(event):
+    mycursor.execute("""insert into attendance_record(a_date,a_detail,u_id) value (%s,%s,%s)""",(formatted_date,"PRESENT",1))
+    mydb.commit()
+    print("ATTENDANCE POSTED!")
 
 root = tk.Tk()
 root.geometry('770x400')
 empDetailsFrame = tk.Frame(root)
 titleFrame = tk.Frame(root)
+attdFrame = tk.Frame(root)
 
 # title
 titleLabel = tk.Label(titleFrame,text="PROFILE AND STATS", fg="red",font=('Arial',20,'bold'))
@@ -19,9 +26,9 @@ titleLabel.grid(sticky=tk.N)
 titleFrame.grid(sticky=tk.N)
 
 # get user details
-mycursor.execute("select * from t_users where full_name=%s",(username,))
+mycursor.execute("select * from t_users where u_id=%s",(u_id,))
 dbDetails = mycursor.fetchall()
-headers=("User Id:","Password:","Date of Joining:","Full Name:")
+headers=("User Id","Password","Date of Joining","Full Name")
 dbDetails.insert(0,headers)
 print(dbDetails)
 
@@ -37,7 +44,6 @@ total_rows = len(dbDetails)
 total_columns = len(dbDetails[0])
 
 
-
 # Table1 = Table(empDetailsFrame)
 
 
@@ -45,6 +51,13 @@ total_columns = len(dbDetails[0])
 # Example(root).pack(fill="both", expand=True)
 empDetailsFrame.grid()
 
+# attendance button!
+
+butt1 = tk.Button(attdFrame, text="POST TODAY'S ATTENDANCE! ABRACADABRA!")
+butt1.bind("<Button-1>",postAttendance)
+butt1.grid(padx=10,pady=10)
+
+attdFrame.grid()
 
 
 root.mainloop()

@@ -1,3 +1,4 @@
 .python-version
 usersAttendance.sql
 .vscode
+__pycache__
