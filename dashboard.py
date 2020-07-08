@@ -8,12 +8,12 @@ def getEmpDetails():
     print("Got Employee Details")
 
 root = tk.Tk()
-root.geometry('700x400')
+root.geometry('770x400')
 empDetailsFrame = tk.Frame(root)
 titleFrame = tk.Frame(root)
 
 # title
-titleLabel = tk.Label(titleFrame,text="Your Information")
+titleLabel = tk.Label(titleFrame,text="PROFILE AND STATS", fg="red",font=('Arial',20,'bold'))
 titleLabel.grid(sticky=tk.N)
 
 titleFrame.grid(sticky=tk.N)
@@ -29,7 +29,8 @@ print(dbDetails)
 # table 
 for i in range(len(dbDetails)): #Rows
     for j in range(len(dbDetails[0])): #Columns
-        b = tk.Entry(empDetailsFrame, text=dbDetails[i][j])
+        b = tk.Entry(empDetailsFrame, width=20, fg='Black',font=('Arial',16,'bold'))
+        b.insert(tk.END, dbDetails[i][j])
         b.grid(row=i, column=j)
 
 total_rows = len(dbDetails) 
